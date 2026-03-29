@@ -10,7 +10,7 @@ using System.Text;
 /// 黒番が指せば 1 増え、白番が指せばさらに 1 増える数だぜ（＾～＾）！
 ///     </pre>
 /// </summary>
-internal class MuzRadixHalfPlyModel
+public class MuzRadixHalfPlyModel
 {
 
 

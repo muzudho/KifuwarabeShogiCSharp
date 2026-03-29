@@ -134,13 +134,9 @@ internal static class MuzUsiLoop
                 SendOutput($"白を表示 = {new MuzColorModel(MuzColorType.White).ToString()}\n", loggingSvc);
                 SendOutput($"エラー表示 = {new MuzColorModel(MuzColorType.None).ToString()}\n", loggingSvc);
             }
-            // ----------------------------------------
-            // 単体テスト　＞　手数
-            // ----------------------------------------
-            else if (commandName == "test-radix-half-ply")
-            {
-                SendOutput($"5を表示 = {new MuzRadixHalfPlyModel(5).Value}\n", loggingSvc);
-            }
+            //
+            // TODO: 単体テストは xUnit へ移行する予定だぜ（＾～＾）！
+            //
             // ----------------------------------------
             // 無いよ
             // ----------------------------------------
