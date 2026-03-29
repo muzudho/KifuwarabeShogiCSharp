@@ -16,6 +16,17 @@ internal class MuzBoardModelReadonly
 
 
     // ========================================
+    // 窓口データメンバー
+    // ========================================
+
+
+    public MuzKomaType GetPieceAt(MuzMasuType masu)
+    {
+        return this._content.Pieces[masu.AsInt()];
+    }
+
+
+    // ========================================
     // 内部データメンバー
     // ========================================
 
