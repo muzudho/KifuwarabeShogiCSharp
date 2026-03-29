@@ -1,5 +1,13 @@
 ﻿namespace KifuwarabeCSharp.Core.Usi.Models.Position.Elements;
 
+internal static class MuzMasuTypeHelper
+{
+    public static int AsInt(this MuzMasuType masu)
+    {
+        return (int)masu;
+    }
+}
+
 /// <summary>
 ///     <pre>
 /// マス番号。
