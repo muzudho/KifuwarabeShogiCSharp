@@ -4,6 +4,5 @@
 /// 局面のモデルだぜ（＾～＾）！
 /// </summary>
 internal class MuzPositionModel
-    : IMuzPositionReadonly
 {
 }

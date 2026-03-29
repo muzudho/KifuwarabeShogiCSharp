@@ -21,7 +21,7 @@ internal static class MuzUsiLoop
     public static async Task RunAsync(
         MuzAppSettings appSettings,
         IMuzLoggingService loggingSvc,
-        Func<IMuzPositionReadonly, string, string, Task> onExternalCommand)
+        Func<MuzPositionReadonly, string, string, Task> onExternalCommand)
     {
         var pos = new MuzPositionModel();
 
@@ -83,33 +83,8 @@ internal static class MuzUsiLoop
             // ----------------------------------------
             else if (commandName == "pos")
             {
-                await onExternalCommand(pos, commandName, rest);
+                await onExternalCommand(new MuzPositionReadonly(pos), commandName, rest);
             }
-            // ----------------------------------------
-            // 盤上の先後付き駒種類
-            // ----------------------------------------
-            else if (commandName == "test-piece-type")
-            {
-
-            }
-            // ----------------------------------------
-            // 単体テスト　＞　マス位置
-            // ----------------------------------------
-            else if (commandName == "test-square-delta")
-            {
-
-            }
-            else if (commandName == "test-square")
-            {
-
-            }
-            else if (commandName == "test-rank")
-            {
-
-            }
-            //
-            // TODO: 単体テストは xUnit へ移行する予定だぜ（＾～＾）！
-            //
             // ----------------------------------------
             // 無いよ
             // ----------------------------------------

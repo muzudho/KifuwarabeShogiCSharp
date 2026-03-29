@@ -15,7 +15,7 @@ internal class MuzCoreReadonly
 
 
     internal MuzCoreReadonly(
-        IMuzPositionReadonly pos)
+        MuzPositionReadonly pos)
     {
         this.Position = pos;
     }
@@ -26,5 +26,5 @@ internal class MuzCoreReadonly
     // ========================================
 
 
-    internal IMuzPositionReadonly Position { get; init; } = default!;
+    internal MuzPositionReadonly Position { get; init; } = default!;
 }
