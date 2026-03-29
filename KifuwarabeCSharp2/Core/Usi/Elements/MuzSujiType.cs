@@ -16,7 +16,7 @@
 ///     A9, A8, A7, A6, A5, A4, A3, A2, A1,		// ９筋目
 ///     </pre>
 /// </summary>
-internal enum MuzSujiType
+public enum MuzSujiType
 {
     /// <summary>
     ///     <pre>

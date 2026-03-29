@@ -3,7 +3,7 @@
 /// <summary>
 /// 筋の操作。
 /// </summary>
-internal static class MuzSujiHelper
+public static class MuzSujiHelper
 {
 
 

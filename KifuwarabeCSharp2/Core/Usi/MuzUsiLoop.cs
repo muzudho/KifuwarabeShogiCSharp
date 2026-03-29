@@ -107,15 +107,6 @@ internal static class MuzUsiLoop
             {
 
             }
-            else if (commandName == "test-suji")
-            {
-#if !DEBUG
-                SendOutput("このテストはデバッグビルドでのみ実行されます（＾～＾）\n", loggingSvc);
-#endif
-                // 問題なければ何も表示されません。
-                DebugAssert(title: "左右反転", expected: MuzSujiType.Suji9, actual: MuzSujiHelper.Inverse(MuzSujiType.Suji1), loggingSvc);
-                DebugAssert(title: "左右反転", expected: MuzSujiType.Suji5, actual: MuzSujiHelper.Inverse(MuzSujiType.Suji5), loggingSvc);
-            }
             //
             // TODO: 単体テストは xUnit へ移行する予定だぜ（＾～＾）！
             //

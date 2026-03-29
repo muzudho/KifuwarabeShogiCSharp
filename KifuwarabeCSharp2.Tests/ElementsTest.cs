@@ -8,6 +8,21 @@ public class ElementsTest
 {
 
 
+    // ［筋］
+
+
+    /// <summary>
+    /// 筋テスト。
+    /// </summary>
+    [Fact]
+    public void Inverse_Suji_ReturnsNumber()
+    {
+        Assert.Equal(expected: MuzSujiType.Suji2, actual: MuzSujiHelper.Inverse(MuzSujiType.Suji8));
+        Assert.Equal(expected: MuzSujiType.Suji5, actual: MuzSujiHelper.Inverse(MuzSujiType.Suji5));
+        Assert.Equal(expected: MuzSujiType.Suji9, actual: MuzSujiHelper.Inverse(MuzSujiType.Suji1));
+    }
+
+
     // ［持ち駒の枚数］
 
 
