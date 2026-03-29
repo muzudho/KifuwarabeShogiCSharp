@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KifuwarabeCSharp2\KifuwarabeCSharp2.csproj" />
+    <ProjectReference Include="..\KifuwarabeCSharp2\KifuwarabeCSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
