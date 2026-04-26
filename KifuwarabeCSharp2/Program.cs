@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using KifuwarabeCSharp;
 using KifuwarabeCSharp.Core.Usi;
+using KifuwarabeCSharp.Infrastructure;
 using KifuwarabeCSharp.Infrastructure.Configuration;
 using KifuwarabeCSharp.Infrastructure.Logging;
 using KifuwarabeCSharp.Models;

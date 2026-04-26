@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeCSharp;
+﻿namespace KifuwarabeCSharp.Infrastructure;
 
 using KifuwarabeCSharp.Infrastructure.Configuration;
 using KifuwarabeCSharp.Infrastructure.Logging;
