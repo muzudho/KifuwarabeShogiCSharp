@@ -1,12 +1,17 @@
-﻿namespace KifuwarabeCSharp.Core.Usi;
+﻿namespace KifuwarabeCSharp.Infrastructure.REPL;
 
 using KifuwarabeCSharp.Core.Usi.Models.Position;
 using KifuwarabeCSharp.Infrastructure.Configuration;
 using KifuwarabeCSharp.Infrastructure.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Diagnostics;
 
+/// <summary>
+/// TODO: `MuzREPL.cs` に移行したい（＾～＾）
+/// </summary>
 internal static class MuzUsiLoop
 {
 
@@ -17,10 +22,15 @@ internal static class MuzUsiLoop
 
 
     public static async Task RunAsync(
-        MuzAppSettings appSettings,
-        IMuzLoggingService loggingSvc,
+        IServiceProvider services,
         Func<MuzPositionModelReadonly, string, string, Task> onExternalCommand)
     {
+        // ［アプリケーション設定ファイル］を動作確認してみようぜ（＾～＾）
+        var appSettings = services.GetRequiredService<IOptions<MuzAppSettings>>().Value;
+
+        // ［ロガー別のログ］を動作確認してみようぜ（＾～＾）
+        var loggingSvc = services.GetRequiredService<IMuzLoggingService>();
+
         var pos = new MuzPositionModel();
 
         // TODO: アプリのメイン処理をここに書く（＾～＾）！ USIプロトコルの処理とか（＾～＾）！

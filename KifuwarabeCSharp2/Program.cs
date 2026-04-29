@@ -1,9 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using HelloConsoleAppCSharp.Core.Infrastructure;
-using KifuwarabeCSharp.Core.Usi;
 using KifuwarabeCSharp.Infrastructure.Configuration;
 using KifuwarabeCSharp.Infrastructure.Logging;
+using KifuwarabeCSharp.Infrastructure.REPL;
 using KifuwarabeCSharp.Models;
 using KifuwarabeCSharp.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -90,8 +90,7 @@ try
             // await host.RunAsync();
 
             await MuzUsiLoop.RunAsync(
-                appSettings,
-                loggingSvc,
+                services,
                 onExternalCommand: async (pos, commandName, argsStr) =>
                 {
                     switch (commandName)
