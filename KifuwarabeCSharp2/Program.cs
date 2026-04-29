@@ -89,31 +89,7 @@ try
             // または IHostedService で長時間動かすアプリなら
             // await host.RunAsync();
 
-            await MuzUsiLoop.RunAsync(
-                services,
-                onExternalCommand: async (pos, commandName, argsStr) =>
-                {
-                    switch (commandName)
-                    {
-                        // ----------------------------------------
-                        // 以下、独自実装
-                        // ----------------------------------------
-                        // ----------------------------------------
-                        // 局面の表示
-                        // ----------------------------------------
-                        case "pos":
-                            var text = MuzPositionView.GetPositionViewString(new MuzCoreModelReadonly(pos));
-                            MuzUsiLoop.SendOutput($"{text}\n", loggingSvc);
-                            break;
-
-                        // ----------------------------------------
-                        // 無いよ
-                        // ----------------------------------------
-                        default:
-                            MuzUsiLoop.SendOutput("そんなコマンド無い（＾～＾）\n", loggingSvc);
-                            break;
-                    }
-                });
+            await MuzUsiLoop.RunAsync(services);
 
             //Console.WriteLine("アプリ終了！ Enter押してね");
             //Console.ReadLine();

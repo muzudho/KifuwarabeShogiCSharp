@@ -3,6 +3,8 @@
 using KifuwarabeCSharp.Core.Usi.Models.Position;
 using KifuwarabeCSharp.Infrastructure.Configuration;
 using KifuwarabeCSharp.Infrastructure.Logging;
+using KifuwarabeCSharp.Models;
+using KifuwarabeCSharp.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -22,8 +24,7 @@ internal static class MuzUsiLoop
 
 
     public static async Task RunAsync(
-        IServiceProvider services,
-        Func<MuzPositionModelReadonly, string, string, Task> onExternalCommand)
+        IServiceProvider services)
     {
         // ［アプリケーション設定ファイル］を動作確認してみようぜ（＾～＾）
         var appSettings = services.GetRequiredService<IOptions<MuzAppSettings>>().Value;
@@ -109,7 +110,9 @@ internal static class MuzUsiLoop
                 // ----------------------------------------
                 if (commandName == "pos")
                 {
-                    await onExternalCommand(new MuzPositionModelReadonly(pos), commandName, rest);
+                    var pos2 = new MuzPositionModelReadonly(pos);
+                    var text = MuzPositionView.GetPositionViewString(new MuzCoreModelReadonly(pos2));
+                    MuzUsiLoop.SendOutput($"{text}\n", loggingSvc);
                     return MuzRequestType.None;
                 }
 
