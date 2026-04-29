@@ -1,10 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using HelloConsoleAppCSharp.Core.Infrastructure;
+using HelloConsoleAppCSharp.Core.Infrastructure.REPL;
+using KifuwarabeCSharp;
 using KifuwarabeCSharp.Core.Usi.Models.Position;
 using KifuwarabeCSharp.Infrastructure.Configuration;
 using KifuwarabeCSharp.Infrastructure.Logging;
-using KifuwarabeCSharp.Infrastructure.REPL;
 using KifuwarabeCSharp.Models;
 using KifuwarabeCSharp.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -75,8 +76,8 @@ try
         {
             // ここからビルドされた［汎用ホスト］（host）が使えるぜ（＾▽＾）！
 
-            // ［アプリケーション設定ファイル］を動作確認してみようぜ（＾～＾）
-            var appSettings = services.GetRequiredService<IOptions<MuzAppSettings>>().Value;
+            //// ［アプリケーション設定ファイル］を動作確認してみようぜ（＾～＾）
+            //var appSettings = services.GetRequiredService<IOptions<MuzAppSettings>>().Value;
             //Console.WriteLine($"AppName: {appSettings.AppName}");
             //Console.WriteLine($"ShogiEngineName: {appSettings.ShogiEngineName}");
 
@@ -84,8 +85,8 @@ try
             //var logger = services.GetRequiredService<ILogger<Program>>();
             //logger.LogInformation("デフォルトのログを書き込むぜ～（＾～＾）！");
 
-            // ［ロガー別のログ］を動作確認してみようぜ（＾～＾）
-            var loggingSvc = services.GetRequiredService<IMuzLoggingService>();
+            //// ［ロガー別のログ］を動作確認してみようぜ（＾～＾）
+            //var loggingSvc = services.GetRequiredService<IMuzLoggingService>();
             //loggingSvc.Others.LogInformation("その他のログだぜ（＾～＾）");
             //loggingSvc.Verbose.LogInformation("大量のログだぜ（＾～＾）");
 
@@ -100,90 +101,7 @@ try
                     // プロンプトは表示しないぜ（＾～＾）
                     await Task.CompletedTask;
                 },
-                evalAsync: async (input) =>
-                {
-                    // 空文字列なら、ループを続けるぜ（＾～＾）！ そうすれば、ユーザーが何か入力するまで待ち続けることができるぜ（＾～＾）！
-                    if (string.IsNullOrWhiteSpace(input)) return MuzREPLRequestType.None;
-
-                    // 最初のスペースで分割（2つに分ける）
-                    string[] parts = input.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
-                    if (parts.Length == 0) throw new UnreachableException("空っぽだぜ");
-
-                    // "Apple Banana Cherry" なら。
-                    string commandName = parts[0];                    // "Apple"
-                    string rest = parts.Length > 1 ? parts[1] : "";  // "Banana Cherry"
-
-                    //loggingSvc.Others.LogDebug($"最初の部分   : {commandName}");
-                    //loggingSvc.Others.LogDebug($"残りの部分   : {rest}");
-
-                    if (commandName == "quit") return MuzREPLRequestType.Exit;
-
-                    if (commandName == "usi")
-                    {
-                        // 将棋の思考エンジンの名前と開発者名を返すぜ（＾▽＾）
-                        SendOutput($"id name {appSettings.ShogiEngineName}\nid author {appSettings.ShogiEngineAuthor}\nusiok\n", loggingSvc);
-                        return MuzREPLRequestType.None;
-                    }
-
-                    if (commandName == "isready")
-                    {
-                        // エンジンが準備できたら、"readyok" を返すぜ（＾▽＾）
-                        SendOutput($"readyok\n", loggingSvc);
-                        return MuzREPLRequestType.None;
-                    }
-
-                    if (commandName == "setoption")
-                    {
-                        // TODO: エンジンのオプションを設定するコマンド。これが来たら、オプションを変更する。
-                        return MuzREPLRequestType.None;
-                    }
-
-                    if (commandName == "usinewgame")
-                    {
-                        // 新しいゲームの開始を知らせるコマンド。これが来たら、前のゲームの情報をクリアする。
-                        return MuzREPLRequestType.None;
-                    }
-
-                    // ----------------------------------------
-                    // 局面
-                    // ----------------------------------------
-                    //      - 例： `position sfen lnsgkgsnl/9/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL w - 1 moves 5a6b 7g7f 3a3b`
-                    if (commandName == "position")
-                    {
-                        return MuzREPLRequestType.None;
-                    }
-
-                    if (commandName == "go")
-                    {
-                        // TODO: 思考開始のコマンド。これが来たら、思考を開始する。
-                        //usiOperation.Go(gameStats, pos, ssCmd);
-
-                        SendOutput($"bestmove resign\n", loggingSvc);   // とりあえず投了を返すぜ（＾ｑ＾）
-                        return MuzREPLRequestType.None;
-                    }
-
-                    // ----------------------------------------
-                    // 以下、独自実装
-                    // ----------------------------------------
-                    // ----------------------------------------
-                    // 局面の表示
-                    // ----------------------------------------
-                    if (commandName == "pos")
-                    {
-                        var pos2 = new MuzPositionModelReadonly(pos);
-                        var text = MuzPositionView.GetPositionViewString(new MuzCoreModelReadonly(pos2));
-                        SendOutput($"{text}\n", loggingSvc);
-                        return MuzREPLRequestType.None;
-                    }
-
-                    // ----------------------------------------
-                    // 無いよ
-                    // ----------------------------------------
-                    SendOutput("そんなコマンド無い（＾～＾）\n", loggingSvc);
-                    return MuzREPLRequestType.None;
-
-
-                }
+                evalAsync: async (command) => await ProgramCommands.ExecuteAsync(services, pos, command)
             );
 
             //Console.WriteLine("アプリ終了！ Enter押してね");
@@ -208,32 +126,3 @@ finally
 
 // Program.cs を最後まで実行しても、必ずしもアプリケーションが終了するわけじゃないぜ（＾～＾）！
 // ［汎用ホスト］が動いている限りは、アプリケーションは終了しないぜ（＾～＾）！
-
-
-// ========================================
-// 内部メソッド
-// ========================================
-
-
-/// <summary>
-/// USIメッセージの出力用（＾～＾）
-/// </summary>
-/// <param name="message">USIメッセージ</param>
-/// <param name="loggingSvc"></param>
-static void SendOutput(string message, IMuzLoggingService loggingSvc)
-{
-    //Console.Write(message); // 改行はもう付いてるから、ここでは付けないぜ（＾～＾）！
-    loggingSvc.USIProtocol.LogInformation(message);
-}
-
-
-[Conditional("DEBUG")]
-static void DebugAssert<T>(string title, T expected, T actual, IMuzLoggingService loggingSvc)
-{
-    if (!object.Equals(expected, actual))
-    {
-        var msg = $"Fail　{title}　期待値: {expected}, 実際の値: {actual}\n";
-        SendOutput(msg, loggingSvc);
-        //Debug.Assert(false, msg);
-    }
-}
