@@ -6,12 +6,6 @@ using KifuwarabeCSharp;
 using KifuwarabeCSharp.Core.Usi.Models.Position;
 using KifuwarabeCSharp.Infrastructure.Configuration;
 using KifuwarabeCSharp.Infrastructure.Logging;
-using KifuwarabeCSharp.Models;
-using KifuwarabeCSharp.Views;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System.Diagnostics;
 
 try
 {
