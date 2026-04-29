@@ -1,11 +1,12 @@
 ﻿namespace KifuwarabeCSharp.Views;
 
+using HelloConsoleAppCSharp.Core.Infrastructure;
 using KifuwarabeCSharp.Core.Usi.Models.Position.Elements;
 using KifuwarabeCSharp.Models;
 
 internal static class MuzPositionView
 {
-    public static string GetPositionViewString(
+    public static async Task PrintPositionAsync(
         MuzCoreModelReadonly core)
     {
         // 持ち駒の枚数
@@ -115,13 +116,30 @@ internal static class MuzPositionView
         var m98 = core.Position.Board.GetPieceAt(MuzMasuType.M98).AsOneStr();
         var m99 = core.Position.Board.GetPieceAt(MuzMasuType.M99).AsOneStr();
 
-        return $@"[次は 1 手目 / 下の番 / 反復 0 回目]
+        Console.Clear();
+
+        // 画面の左上に、次の手番などを表示
+        await MuzConsoleHelper.WriteLineAsync(
+            left: 0,
+            top: 0,
+            foregroundColor: ConsoleColor.Black,
+            backgroundColor: ConsoleColor.White,
+            message: $"[次は 1 手目 / 下の番 / 反復 0 回目]");
+
+        // 白番の持ち駒を表示
+        Console.WriteLine($@"
 
  飛 角 金 銀 桂 香 歩
 +--+--+--+--+--+--+--+
 |{h1,2}|{h2,2}|{h3,2}|{h4,2}|{h5,2}|{h6,2}|{h7,2}|
 +--+--+--+--+--+--+--+
+");
 
+        // 将棋盤を表示
+        await MuzConsoleHelper.WriteLineAsync(
+            foregroundColor: ConsoleColor.Black,
+            backgroundColor: ConsoleColor.Yellow,
+            message: $@"
   9   8   7   6   5   4   3   2   1
 +---+---+---+---+---+---+---+---+---+
 |{m91,3}|{m81,3}|{m71,3}|{m61,3}|{m51,3}|{m41,3}|{m31,3}|{m21,3}|{m11,3}| 一
@@ -141,12 +159,16 @@ internal static class MuzPositionView
 |{m98,3}|{m88,3}|{m78,3}|{m68,3}|{m58,3}|{m48,3}|{m38,3}|{m28,3}|{m18,3}| 八
 +---+---+---+---+---+---+---+---+---+
 |{m99,3}|{m89,3}|{m79,3}|{m69,3}|{m59,3}|{m49,3}|{m39,3}|{m29,3}|{m19,3}| 九
-+---+---+---+---+---+---+---+---+---+
++---+---+---+---+---+---+---+---+---+");
+
+        // 黒番の持ち駒を表示
+        Console.WriteLine($@"
 
  飛 角 金 銀 桂 香 歩
 +--+--+--+--+--+--+--+
 |{h8,2}|{h9,2}|{h10,2}|{h11,2}|{h12,2}|{h13,2}|{h14,2}|
 +--+--+--+--+--+--+--+
-";
+");
+
     }
 }

@@ -93,8 +93,13 @@ internal static class ProgramCommands
         if (commandName == "pos")
         {
             var pos2 = new MuzPositionModelReadonly(pos);
-            var text = MuzPositionView.GetPositionViewString(new MuzCoreModelReadonly(pos2));
-            SendOutput($"{text}\n", loggingSvc);
+            await MuzPositionView.PrintPositionAsync(new MuzCoreModelReadonly(pos2));
+            return MuzREPLRequestType.None;
+        }
+
+        if (commandName == "clear")
+        {
+            Console.Clear();
             return MuzREPLRequestType.None;
         }
 
