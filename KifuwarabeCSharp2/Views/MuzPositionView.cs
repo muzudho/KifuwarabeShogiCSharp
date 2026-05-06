@@ -135,6 +135,7 @@ internal static class MuzPositionView
 +--+--+--+--+--+--+--+
 ");
 
+        // TODO: 座標を指定して、駒や符号を表示するようにしたい。
         // 将棋盤を表示
         await MuzConsole.WriteLineAsync(
             foregroundColor: ConsoleColor.Black,
