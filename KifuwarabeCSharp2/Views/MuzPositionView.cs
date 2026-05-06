@@ -119,7 +119,7 @@ internal static class MuzPositionView
         Console.Clear();
 
         // 画面の左上に、次の手番などを表示
-        await MuzConsoleHelper.WriteLineAsync(
+        await MuzConsole.WriteLineAsync(
             left: 0,
             top: 0,
             foregroundColor: ConsoleColor.Black,
@@ -136,7 +136,7 @@ internal static class MuzPositionView
 ");
 
         // 将棋盤を表示
-        await MuzConsoleHelper.WriteLineAsync(
+        await MuzConsole.WriteLineAsync(
             foregroundColor: ConsoleColor.Black,
             backgroundColor: ConsoleColor.Yellow,
             message: $@"
