@@ -19,21 +19,17 @@ internal static class MuzPositionView
     public static async Task PrintPositionAsync(
         MuzCoreModelReadonly core)
     {
+        var topHandLines = BuildHandStandLines(core.Position.HandStandCollection, isKudariSide: true);
         var boardLines = BuildBoardLines(core.Position.Board);
         var bottomHandTop = BoardTop + boardLines.Length + BottomHandGapTop;
         var bottomHandLines = BuildHandStandLines(core.Position.HandStandCollection, isKudariSide: false);
 
         Console.BackgroundColor = ConsoleColor.DarkGreen;
         Console.ForegroundColor = ConsoleColor.Black;
-        EnsureConsoleBufferHeight(bottomHandTop + bottomHandLines.Length);
         Console.Clear();
 
         await RenderStatusAsync();
-        await RenderHandStandAsync(
-            left: TopHandLeft,
-            top: TopHandTop,
-            handStandCollection: core.Position.HandStandCollection,
-            isKudariSide: true);
+        await RenderHandStandAsync(TopHandLeft, TopHandTop, topHandLines);
         await RenderBoardAsync(BoardLeft, BoardTop, boardLines);
         await RenderHandStandAsync(BottomHandLeft, bottomHandTop, bottomHandLines);
 
@@ -43,31 +39,12 @@ internal static class MuzPositionView
 
     private static async Task RenderStatusAsync()
     {
-        await MuzConsole.WriteLineAtAsync(
+        await MuzConsole.WriteAtAsync(
             left: StatusLeft,
             top: StatusTop,
             foregroundColor: ConsoleColor.Black,
             backgroundColor: ConsoleColor.White,
             message: "[次は 1 手目 / 下の番 / 反復 0 回目]");
-    }
-
-
-    private static async Task RenderHandStandAsync(
-        int left,
-        int top,
-        MuzHandStandCollectionModelReadonly handStandCollection,
-        bool isKudariSide)
-    {
-        await RenderHandStandAsync(left, top, BuildHandStandLines(handStandCollection, isKudariSide));
-    }
-
-
-    private static async Task RenderBoardAsync(
-        int left,
-        int top,
-        MuzBoardModelReadonly board)
-    {
-        await RenderBoardAsync(left, top, BuildBoardLines(board));
     }
 
 
@@ -108,7 +85,7 @@ internal static class MuzPositionView
     {
         for (int index = 0; index < lines.Count; index++)
         {
-            await MuzConsole.WriteLineAtAsync(
+            await MuzConsole.WriteAtAsync(
                 left: left,
                 top: top + index,
                 foregroundColor: foregroundColor,
@@ -194,21 +171,5 @@ internal static class MuzPositionView
     private static MuzMasuType ToMasu(int suji, int dan)
     {
         return (MuzMasuType)(((dan - 1) * 9) + (9 - suji));
-    }
-
-
-    private static void EnsureConsoleBufferHeight(int requiredHeight)
-    {
-        if (Console.IsOutputRedirected)
-        {
-            return;
-        }
-
-        if (requiredHeight <= Console.BufferHeight)
-        {
-            return;
-        }
-
-        Console.BufferHeight = requiredHeight;
     }
 }
