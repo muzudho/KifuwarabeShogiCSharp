@@ -21,6 +21,7 @@ internal static class MuzPositionView
     private const int BottomHandGapTop = 1;
     private const int BoardCellWidth = 4;
     private const int BoardCellHeight = 2;
+    private const int BoardCellTextWidth = 3;
     private const int BoardCellInnerLeftOffset = 1;
     private const int BoardCellInnerTopOffset = 2;
     private const int BoardDanLabelLeftOffset = 37;
@@ -135,19 +136,25 @@ internal static class MuzPositionView
             for (int suji = 9; suji >= 1; suji--)
             {
                 var piece = board.GetPieceAt(ToMasu(suji, dan));
-                if (piece == MuzKomaType.Empty)
-                {
-                    continue;
-                }
-
-                await MuzConsole.WriteAtAsync(
-                    left: GetBoardCellLeft(left, suji),
-                    top: GetBoardCellTop(top, dan),
-                    foregroundColor: TextColor,
-                    backgroundColor: WoodColor,
-                    message: piece.AsOneStr());
+                await RenderBoardCellAsync(left, top, suji, dan, piece);
             }
         }
+    }
+
+
+    private static async Task RenderBoardCellAsync(
+        int boardLeft,
+        int boardTop,
+        int suji,
+        int dan,
+        MuzKomaType piece)
+    {
+        await MuzConsole.WriteAtAsync(
+            left: GetBoardCellLeft(boardLeft, suji),
+            top: GetBoardCellTop(boardTop, dan),
+            foregroundColor: TextColor,
+            backgroundColor: GetBoardCellBackgroundColor(suji, dan),
+            message: GetBoardCellText(piece));
     }
 
 
@@ -237,6 +244,20 @@ internal static class MuzPositionView
     private static int GetBoardDanLabelLeft(int boardLeft)
     {
         return boardLeft + BoardDanLabelLeftOffset;
+    }
+
+
+    private static ConsoleColor GetBoardCellBackgroundColor(int suji, int dan)
+    {
+        return WoodColor;
+    }
+
+
+    private static string GetBoardCellText(MuzKomaType piece)
+    {
+        return piece == MuzKomaType.Empty
+            ? new string(' ', BoardCellTextWidth)
+            : piece.AsOneStr();
     }
 
 
