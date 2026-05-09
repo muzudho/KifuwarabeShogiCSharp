@@ -19,6 +19,11 @@ internal static class MuzPositionView
     private const int BoardTop = 7;
     private const int BottomHandLeft = 15;
     private const int BottomHandGapTop = 1;
+    private const int BoardCellWidth = 4;
+    private const int BoardCellHeight = 2;
+    private const int BoardCellInnerLeftOffset = 1;
+    private const int BoardCellInnerTopOffset = 2;
+    private const int BoardDanLabelLeftOffset = 37;
 
     public static async Task PrintPositionAsync(
         MuzCoreModelReadonly core)
@@ -136,8 +141,8 @@ internal static class MuzPositionView
                 }
 
                 await MuzConsole.WriteAtAsync(
-                    left: left + 1 + ((9 - suji) * 4),
-                    top: top + 2 + ((dan - 1) * 2),
+                    left: GetBoardCellLeft(left, suji),
+                    top: GetBoardCellTop(top, dan),
                     foregroundColor: TextColor,
                     backgroundColor: WoodColor,
                     message: piece.AsOneStr());
@@ -201,7 +206,9 @@ internal static class MuzPositionView
         for (int dan = 1; dan <= 9; dan++)
         {
             lines.Add("+---+---+---+---+---+---+---+---+---+");
-            lines.Add($"|   |   |   |   |   |   |   |   |   | {danLabels[dan - 1]}");
+            var row = new StringBuilder("|   |   |   |   |   |   |   |   |   | ");
+            row.Append(danLabels[dan - 1]);
+            lines.Add(row.ToString());
         }
 
         lines.Add("+---+---+---+---+---+---+---+---+---+");
@@ -212,6 +219,24 @@ internal static class MuzPositionView
     private static MuzMasuType ToMasu(int suji, int dan)
     {
         return (MuzMasuType)(((dan - 1) * 9) + (9 - suji));
+    }
+
+
+    private static int GetBoardCellLeft(int boardLeft, int suji)
+    {
+        return boardLeft + BoardCellInnerLeftOffset + ((9 - suji) * BoardCellWidth);
+    }
+
+
+    private static int GetBoardCellTop(int boardTop, int dan)
+    {
+        return boardTop + BoardCellInnerTopOffset + ((dan - 1) * BoardCellHeight);
+    }
+
+
+    private static int GetBoardDanLabelLeft(int boardLeft)
+    {
+        return boardLeft + BoardDanLabelLeftOffset;
     }
 
 
