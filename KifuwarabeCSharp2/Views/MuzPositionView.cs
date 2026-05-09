@@ -7,44 +7,118 @@ using System.Text;
 
 internal static class MuzPositionView
 {
+    private const int StatusLeft = 0;
+    private const int StatusTop = 0;
+    private const int TopHandLeft = 1;
+    private const int TopHandTop = 2;
+    private const int BoardLeft = 0;
+    private const int BoardTop = 7;
+    private const int BottomHandLeft = 15;
+    private const int BottomHandGapTop = 1;
+
     public static async Task PrintPositionAsync(
         MuzCoreModelReadonly core)
     {
+        var boardLines = BuildBoardLines(core.Position.Board);
+        var bottomHandTop = BoardTop + boardLines.Length + BottomHandGapTop;
+        var bottomHandLines = BuildHandStandLines(core.Position.HandStandCollection, isKudariSide: false);
+
         Console.BackgroundColor = ConsoleColor.DarkGreen;
         Console.ForegroundColor = ConsoleColor.Black;
+        EnsureConsoleBufferHeight(bottomHandTop + bottomHandLines.Length);
         Console.Clear();
 
-        // 画面の左上に、次の手番などを表示
-        await MuzConsole.WriteLineAtAsync(
-            left: 0,
-            top: 0,
-            foregroundColor: ConsoleColor.Black,
-            backgroundColor: ConsoleColor.White,
-            message: $"[次は 1 手目 / 下の番 / 反復 0 回目]");
-
-        Console.SetCursorPosition(left: 0, top: 2);
-
-        await MuzConsole.WriteLineAsync(
-            foregroundColor: ConsoleColor.Black,
-            backgroundColor: ConsoleColor.Yellow,
-            message: BuildHandStandText(core.Position.HandStandCollection, isKudariSide: true));
-
-        // 将棋盤を表示
-        await MuzConsole.WriteLineAsync(
-            foregroundColor: ConsoleColor.Black,
-            backgroundColor: ConsoleColor.Yellow,
-            message: BuildBoardText(core.Position.Board));
-
-        await MuzConsole.WriteLineAsync(
-            foregroundColor: ConsoleColor.Black,
-            backgroundColor: ConsoleColor.Yellow,
-            message: BuildHandStandText(core.Position.HandStandCollection, isKudariSide: false));
+        await RenderStatusAsync();
+        await RenderHandStandAsync(
+            left: TopHandLeft,
+            top: TopHandTop,
+            handStandCollection: core.Position.HandStandCollection,
+            isKudariSide: true);
+        await RenderBoardAsync(BoardLeft, BoardTop, boardLines);
+        await RenderHandStandAsync(BottomHandLeft, bottomHandTop, bottomHandLines);
 
         Console.ResetColor();
     }
 
 
-    private static string BuildHandStandText(
+    private static async Task RenderStatusAsync()
+    {
+        await MuzConsole.WriteLineAtAsync(
+            left: StatusLeft,
+            top: StatusTop,
+            foregroundColor: ConsoleColor.Black,
+            backgroundColor: ConsoleColor.White,
+            message: "[次は 1 手目 / 下の番 / 反復 0 回目]");
+    }
+
+
+    private static async Task RenderHandStandAsync(
+        int left,
+        int top,
+        MuzHandStandCollectionModelReadonly handStandCollection,
+        bool isKudariSide)
+    {
+        await RenderHandStandAsync(left, top, BuildHandStandLines(handStandCollection, isKudariSide));
+    }
+
+
+    private static async Task RenderBoardAsync(
+        int left,
+        int top,
+        MuzBoardModelReadonly board)
+    {
+        await RenderBoardAsync(left, top, BuildBoardLines(board));
+    }
+
+
+    private static async Task RenderHandStandAsync(
+        int left,
+        int top,
+        IReadOnlyList<string> lines)
+    {
+        await RenderLinesAsync(
+            left,
+            top,
+            lines,
+            foregroundColor: ConsoleColor.Black,
+            backgroundColor: ConsoleColor.Yellow);
+    }
+
+
+    private static async Task RenderBoardAsync(
+        int left,
+        int top,
+        IReadOnlyList<string> lines)
+    {
+        await RenderLinesAsync(
+            left,
+            top,
+            lines,
+            foregroundColor: ConsoleColor.Black,
+            backgroundColor: ConsoleColor.Yellow);
+    }
+
+
+    private static async Task RenderLinesAsync(
+        int left,
+        int top,
+        IReadOnlyList<string> lines,
+        ConsoleColor foregroundColor,
+        ConsoleColor backgroundColor)
+    {
+        for (int index = 0; index < lines.Count; index++)
+        {
+            await MuzConsole.WriteLineAtAsync(
+                left: left,
+                top: top + index,
+                foregroundColor: foregroundColor,
+                backgroundColor: backgroundColor,
+                message: lines[index]);
+        }
+    }
+
+
+    private static string[] BuildHandStandLines(
         MuzHandStandCollectionModelReadonly handStandCollection,
         bool isKudariSide)
     {
@@ -70,53 +144,71 @@ internal static class MuzPositionView
                 handStandCollection.NoboriFu,
             };
 
-        var builder = new StringBuilder();
-        builder.AppendLine();
-        builder.AppendLine(" 飛 角 金 銀 桂 香 歩");
-        builder.AppendLine("+--+--+--+--+--+--+--+");
-        builder.Append('|');
+        var line = new StringBuilder();
+        line.Append('|');
 
         foreach (var count in counts)
         {
-            builder.Append($"{count,2}|");
+            line.Append($"{count,2}|");
         }
 
-        builder.AppendLine();
-        builder.AppendLine("+--+--+--+--+--+--+--+");
-
-        return builder.ToString();
+        return
+        [
+            " 飛 角 金 銀 桂 香 歩",
+            "+--+--+--+--+--+--+--+",
+            line.ToString(),
+            "+--+--+--+--+--+--+--+",
+        ];
     }
 
 
-    private static string BuildBoardText(MuzBoardModelReadonly board)
+    private static string[] BuildBoardLines(MuzBoardModelReadonly board)
     {
         var danLabels = new[] { "一", "二", "三", "四", "五", "六", "七", "八", "九" };
-        var builder = new StringBuilder();
-
-        builder.AppendLine();
-        builder.AppendLine("  9   8   7   6   5   4   3   2   1");
+        var lines = new List<string>
+        {
+            "  9   8   7   6   5   4   3   2   1"
+        };
 
         for (int dan = 1; dan <= 9; dan++)
         {
-            builder.AppendLine("+---+---+---+---+---+---+---+---+---+");
-            builder.Append('|');
+            lines.Add("+---+---+---+---+---+---+---+---+---+");
+            var row = new StringBuilder();
+            row.Append('|');
 
             for (int suji = 9; suji >= 1; suji--)
             {
-                builder.Append($"{board.GetPieceAt(ToMasu(suji, dan)).AsOneStr(),3}|");
+                row.Append($"{board.GetPieceAt(ToMasu(suji, dan)).AsOneStr(),3}|");
             }
 
-            builder.Append(' ');
-            builder.AppendLine(danLabels[dan - 1]);
+            row.Append(' ');
+            row.Append(danLabels[dan - 1]);
+            lines.Add(row.ToString());
         }
 
-        builder.AppendLine("+---+---+---+---+---+---+---+---+---+");
-        return builder.ToString();
+        lines.Add("+---+---+---+---+---+---+---+---+---+");
+        return [.. lines];
     }
 
 
     private static MuzMasuType ToMasu(int suji, int dan)
     {
         return (MuzMasuType)(((dan - 1) * 9) + (9 - suji));
+    }
+
+
+    private static void EnsureConsoleBufferHeight(int requiredHeight)
+    {
+        if (Console.IsOutputRedirected)
+        {
+            return;
+        }
+
+        if (requiredHeight <= Console.BufferHeight)
+        {
+            return;
+        }
+
+        Console.BufferHeight = requiredHeight;
     }
 }
