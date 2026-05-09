@@ -24,7 +24,7 @@ internal static class MuzPositionView
         MuzCoreModelReadonly core)
     {
         var topHandLines = BuildHandStandLines(core.Position.HandStandCollection, isKudariSide: true);
-        var boardLines = BuildBoardLines(core.Position.Board);
+        var boardLines = BuildBoardFrameLines();
         var bottomHandTop = BoardTop + boardLines.Length + BottomHandGapTop;
         var bottomHandLines = BuildHandStandLines(core.Position.HandStandCollection, isKudariSide: false);
 
@@ -37,7 +37,7 @@ internal static class MuzPositionView
         await RenderPanelAsync(BottomHandLeft, bottomHandTop, bottomHandLines);
         await RenderStatusAsync();
         await RenderHandStandAsync(TopHandLeft, TopHandTop, topHandLines);
-        await RenderBoardAsync(BoardLeft, BoardTop, boardLines);
+        await RenderBoardAsync(BoardLeft, BoardTop, core.Position.Board, boardLines);
         await RenderHandStandAsync(BottomHandLeft, bottomHandTop, bottomHandLines);
 
         Console.ResetColor();
@@ -87,6 +87,7 @@ internal static class MuzPositionView
     private static async Task RenderBoardAsync(
         int left,
         int top,
+        MuzBoardModelReadonly board,
         IReadOnlyList<string> lines)
     {
         await RenderLinesAsync(
@@ -95,6 +96,8 @@ internal static class MuzPositionView
             lines,
             foregroundColor: TextColor,
             backgroundColor: WoodColor);
+
+        await RenderBoardPiecesAsync(left, top, board);
     }
 
 
@@ -113,6 +116,32 @@ internal static class MuzPositionView
                 foregroundColor: foregroundColor,
                 backgroundColor: backgroundColor,
                 message: lines[index]);
+        }
+    }
+
+
+    private static async Task RenderBoardPiecesAsync(
+        int left,
+        int top,
+        MuzBoardModelReadonly board)
+    {
+        for (int dan = 1; dan <= 9; dan++)
+        {
+            for (int suji = 9; suji >= 1; suji--)
+            {
+                var piece = board.GetPieceAt(ToMasu(suji, dan));
+                if (piece == MuzKomaType.Empty)
+                {
+                    continue;
+                }
+
+                await MuzConsole.WriteAtAsync(
+                    left: left + 1 + ((9 - suji) * 4),
+                    top: top + 2 + ((dan - 1) * 2),
+                    foregroundColor: TextColor,
+                    backgroundColor: WoodColor,
+                    message: piece.AsOneStr());
+            }
         }
     }
 
@@ -161,7 +190,7 @@ internal static class MuzPositionView
     }
 
 
-    private static string[] BuildBoardLines(MuzBoardModelReadonly board)
+    private static string[] BuildBoardFrameLines()
     {
         var danLabels = new[] { "一", "二", "三", "四", "五", "六", "七", "八", "九" };
         var lines = new List<string>
@@ -172,17 +201,7 @@ internal static class MuzPositionView
         for (int dan = 1; dan <= 9; dan++)
         {
             lines.Add("+---+---+---+---+---+---+---+---+---+");
-            var row = new StringBuilder();
-            row.Append('|');
-
-            for (int suji = 9; suji >= 1; suji--)
-            {
-                row.Append($"{board.GetPieceAt(ToMasu(suji, dan)).AsOneStr(),3}|");
-            }
-
-            row.Append(' ');
-            row.Append(danLabels[dan - 1]);
-            lines.Add(row.ToString());
+            lines.Add($"|   |   |   |   |   |   |   |   |   | {danLabels[dan - 1]}");
         }
 
         lines.Add("+---+---+---+---+---+---+---+---+---+");
