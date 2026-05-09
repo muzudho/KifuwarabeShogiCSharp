@@ -38,7 +38,6 @@ internal static class MuzLogging
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
             .Enrich.FromLogContext()
-            .WriteTo.Console()
             .WriteTo.File(
                 "Logs/Bootstrap-.log",
                 rollingInterval: RollingInterval.Day,
