@@ -45,6 +45,8 @@ internal static class MuzLogging
                 outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
             .CreateBootstrapLogger();  // ホストビルド前のログ用
 
+        builder.Logging.ClearProviders();
+
         // ［Serilog］パッケージをNuGetでダウンロードしてきているはず。そのロガーを、Microsoft の ILogger にブリッジ。これで ILogger<T> を使うと Serilog が使われるぜ（＾～＾）
         builder.Services.AddSerilog();
 
