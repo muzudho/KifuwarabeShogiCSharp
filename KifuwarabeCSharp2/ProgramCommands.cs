@@ -123,7 +123,7 @@ internal static class ProgramCommands
     /// <param name="loggingSvc"></param>
     internal static void SendOutput(string message, IMuzLoggingService loggingSvc)
     {
-        //Console.Write(message); // 改行はもう付いてるから、ここでは付けないぜ（＾～＾）！
+        Console.Write(message); // 改行はもう付いてるから、ここでは付けないぜ（＾～＾）！
         loggingSvc.USIProtocol.LogInformation(message);
     }
 
