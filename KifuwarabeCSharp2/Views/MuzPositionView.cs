@@ -7,6 +7,10 @@ using System.Text;
 
 internal static class MuzPositionView
 {
+    private static readonly ConsoleColor TatamiColor = ConsoleColor.DarkGreen;
+    private static readonly ConsoleColor WoodColor = ConsoleColor.Yellow;
+    private static readonly ConsoleColor TextColor = ConsoleColor.Black;
+
     private const int StatusLeft = 0;
     private const int StatusTop = 0;
     private const int TopHandLeft = 1;
@@ -24,10 +28,13 @@ internal static class MuzPositionView
         var bottomHandTop = BoardTop + boardLines.Length + BottomHandGapTop;
         var bottomHandLines = BuildHandStandLines(core.Position.HandStandCollection, isKudariSide: false);
 
-        Console.BackgroundColor = ConsoleColor.DarkGreen;
-        Console.ForegroundColor = ConsoleColor.Black;
+        Console.BackgroundColor = TatamiColor;
+        Console.ForegroundColor = TextColor;
         Console.Clear();
 
+        await RenderPanelAsync(TopHandLeft, TopHandTop, topHandLines);
+        await RenderPanelAsync(BoardLeft, BoardTop, boardLines);
+        await RenderPanelAsync(BottomHandLeft, bottomHandTop, bottomHandLines);
         await RenderStatusAsync();
         await RenderHandStandAsync(TopHandLeft, TopHandTop, topHandLines);
         await RenderBoardAsync(BoardLeft, BoardTop, boardLines);
@@ -42,9 +49,24 @@ internal static class MuzPositionView
         await MuzConsole.WriteAtAsync(
             left: StatusLeft,
             top: StatusTop,
-            foregroundColor: ConsoleColor.Black,
+            foregroundColor: TextColor,
             backgroundColor: ConsoleColor.White,
             message: "[次は 1 手目 / 下の番 / 反復 0 回目]");
+    }
+
+
+    private static async Task RenderPanelAsync(
+        int left,
+        int top,
+        IReadOnlyList<string> lines)
+    {
+        await MuzConsole.FillRectAsync(
+            left: left,
+            top: top,
+            width: GetPanelWidth(lines),
+            height: lines.Count,
+            fgColor: TextColor,
+            bgColor: WoodColor);
     }
 
 
@@ -57,8 +79,8 @@ internal static class MuzPositionView
             left,
             top,
             lines,
-            foregroundColor: ConsoleColor.Black,
-            backgroundColor: ConsoleColor.Yellow);
+            foregroundColor: TextColor,
+            backgroundColor: WoodColor);
     }
 
 
@@ -71,8 +93,8 @@ internal static class MuzPositionView
             left,
             top,
             lines,
-            foregroundColor: ConsoleColor.Black,
-            backgroundColor: ConsoleColor.Yellow);
+            foregroundColor: TextColor,
+            backgroundColor: WoodColor);
     }
 
 
@@ -171,5 +193,11 @@ internal static class MuzPositionView
     private static MuzMasuType ToMasu(int suji, int dan)
     {
         return (MuzMasuType)(((dan - 1) * 9) + (9 - suji));
+    }
+
+
+    private static int GetPanelWidth(IReadOnlyList<string> lines)
+    {
+        return lines.Count == 0 ? 0 : lines.Max(line => line.Length);
     }
 }
