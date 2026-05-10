@@ -1,8 +1,8 @@
 ﻿namespace KifuwarabeShogiCSharp.Tests;
 
-using KifuwarabeShogiCSharp.Core.Usi.Elements;
 using KifuwarabeShogiCSharp.Domain.Shogi.Coordinates;
 using KifuwarabeShogiCSharp.Domain.Shogi.Hands;
+using KifuwarabeShogiCSharp.Domain.Shogi.Position;
 using KifuwarabeShogiCSharp.Domain.Shogi.Turns;
 using Xunit;
 

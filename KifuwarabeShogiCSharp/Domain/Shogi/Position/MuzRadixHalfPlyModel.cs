@@ -1,8 +1,4 @@
-﻿namespace KifuwarabeShogiCSharp.Core.Usi.Elements;
-
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace KifuwarabeShogiCSharp.Domain.Shogi.Position;
 
 /// <summary>
 ///     <pre>
