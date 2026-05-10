@@ -1,5 +1,7 @@
 # コマンド例
 
+## USIプロトコル
+
 👇　下記の［USIプロトコル］を実装したいんだぜ（＾▽＾）！  
 📖 [将棋所　＞　USIプロトコルとは](https://shogidokoro2.stars.ne.jp/usi.html)  
 
@@ -8,17 +10,79 @@
 
 標準エラー出力は使ってもいいが、仕様にないので、あんま使いたくないぜ（＾～＾）  
 
-```shell
-usi
+
+### 起動時
+
+```mermaid
+sequenceDiagram
+    participant GUI
+    participant Engine as 思考エンジン
+
+    GUI->>Engine: usi
+    Engine-->>GUI: id name きふわらぷりー
+    Engine-->>GUI: id author muzudho
+    Engine-->>GUI: usiok
 ```
 
-👆　GUIは、最初に将棋エンジンに対して `usi` と入力するのが［USI プロトコル］を始める合図だぜ（＾▽＾）！  
 
-```shell
-usiok
+### 準備確認
+
+```mermaid
+sequenceDiagram
+    participant GUI
+    participant Engine as 思考エンジン
+
+    GUI->>Engine: isready
+    Engine-->>GUI: readyok
 ```
 
-👆　将棋の思考エンジンは、GUI に `usiok` を返すぜ（＾▽＾）  
+
+### オプション設定（任意）
+
+```mermaid
+sequenceDiagram
+    participant GUI
+    participant Engine as 思考エンジン
+
+    GUI->>Engine: setoption name USI_Ponder value true
+    Note right of Engine: 詳しくは将棋所の説明を読んでくれだぜ（＾～＾）！
+```
+
+
+### 新しいゲームの開始
+
+```mermaid
+sequenceDiagram
+    participant GUI
+    participant Engine as 思考エンジン
+
+    GUI->>Engine: usinewgame
+    Note right of Engine: 前のゲームの情報をクリアする
+```
+
+
+### 局面を設定して指し手を求める
+
+```mermaid
+sequenceDiagram
+    participant GUI
+    participant Engine as 思考エンジン
+
+    GUI->>Engine: position sfen lnsgkgsnl/9/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1
+    GUI->>Engine: go
+    Engine-->>GUI: bestmove resign
+```
+
+
+### 終了
+
+```mermaid
+sequenceDiagram
+    participant GUI
+    participant Engine as 思考エンジン
+
+    GUI->>Engine: quit
+```
 
 
 ## 独自コマンド例
