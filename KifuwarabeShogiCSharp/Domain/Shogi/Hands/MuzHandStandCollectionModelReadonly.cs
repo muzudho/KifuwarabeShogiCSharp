@@ -1,10 +1,11 @@
-﻿namespace KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
+namespace KifuwarabeShogiCSharp.Domain.Shogi.Hands;
+
 /// <summary>
 ///     <pre>
 /// 両駒台の持ち駒の枚数だぜ（＾～＾）！
 ///     </pre>
 /// </summary>
-public class MuzHandStandCollectionModel
+public class MuzHandStandCollectionModelReadonly
 {
 
 
@@ -13,42 +14,9 @@ public class MuzHandStandCollectionModel
     // ========================================
 
 
-    public MuzHandStandCollectionModel()
+    public MuzHandStandCollectionModelReadonly(MuzHandStandCollectionModel content)
     {
-
-    }
-
-
-    public MuzHandStandCollectionModel(
-        byte noboriFu,
-        byte noboriKyo,
-        byte noboriKei,
-        byte noboriGin,
-        byte noboriKin,
-        byte noboriKaku,
-        byte noboriHisya,
-        byte kudariFu,
-        byte kudariKyo,
-        byte kudariKei,
-        byte kudariGin,
-        byte kudariKin,
-        byte kudariKaku,
-        byte kudariHisya)
-    {
-        this.NoboriFu = noboriFu;
-        this.NoboriKyo = noboriKyo;
-        this.NoboriKei = noboriKei;
-        this.NoboriGin = noboriGin;
-        this.NoboriKin = noboriKin;
-        this.NoboriKaku = noboriKaku;
-        this.NoboriHisya = noboriHisya;
-        this.KudariFu = kudariFu;
-        this.KudariKyo = kudariKyo;
-        this.KudariKei = kudariKei;
-        this.KudariGin = kudariGin;
-        this.KudariKin = kudariKin;
-        this.KudariKaku = kudariKaku;
-        this.KudariHisya = kudariHisya;
+        this._content = content;
     }
 
 
@@ -60,85 +28,93 @@ public class MuzHandStandCollectionModel
     /// <summary>
     /// ［▲歩］の枚数。
     /// </summary>
-    public byte NoboriFu { get; set; }
+    public byte NoboriFu => this._content.NoboriFu;
 
 
     /// <summary>
     /// ［▲香］の枚数。
     /// </summary>
-    public byte NoboriKyo { get; set; }
+    public byte NoboriKyo => this._content.NoboriKyo;
 
 
     /// <summary>
     /// ［▲桂］の枚数。
     /// </summary>
-    public byte NoboriKei { get; set; }
+    public byte NoboriKei => this._content.NoboriKei;
 
 
     /// <summary>
     /// ［▲銀］の枚数。
     /// </summary>
-    public byte NoboriGin { get; set; }
+    public byte NoboriGin => this._content.NoboriGin;
 
 
     /// <summary>
     /// ［▲金］の枚数。
     /// </summary>
-    public byte NoboriKin { get; set; }
+    public byte NoboriKin => this._content.NoboriKin;
 
 
     /// <summary>
     /// ［▲角］の枚数。
     /// </summary>
-    public byte NoboriKaku { get; set; }
+    public byte NoboriKaku => this._content.NoboriKaku;
 
 
     /// <summary>
     /// ［▲飛］の枚数。
     /// </summary>
-    public byte NoboriHisya { get; set; }
+    public byte NoboriHisya => this._content.NoboriHisya;
 
 
     /// <summary>
     /// ［▽歩］の枚数。
     /// </summary>
-    public byte KudariFu { get; set; }
+    public byte KudariFu => this._content.KudariFu;
 
 
     /// <summary>
     /// ［▽香］の枚数。
     /// </summary>
-    public byte KudariKyo { get; set; }
+    public byte KudariKyo => this._content.KudariKyo;
 
 
     /// <summary>
     /// ［▽桂］の枚数。
     /// </summary>
-    public byte KudariKei { get; set; }
+    public byte KudariKei => this._content.KudariKei;
 
 
     /// <summary>
     /// ［▽銀］の枚数。
     /// </summary>
-    public byte KudariGin { get; set; }
+    public byte KudariGin => this._content.KudariGin;
 
 
     /// <summary>
     /// ［▽金］の枚数。
     /// </summary>
-    public byte KudariKin { get; set; }
+    public byte KudariKin => this._content.KudariKin;
 
 
     /// <summary>
     /// ［▽角］の枚数。
     /// </summary>
-    public byte KudariKaku { get; set; }
+    public byte KudariKaku => this._content.KudariKaku;
 
 
     /// <summary>
     /// ［▽飛］の枚数。
     /// </summary>
-    public byte KudariHisya { get; set; }
+    public byte KudariHisya => this._content.KudariHisya;
+
+
+    // ========================================
+    // 内部データメンバー
+    // ========================================
+
+
+    private MuzHandStandCollectionModel _content;
 
 
     // ========================================

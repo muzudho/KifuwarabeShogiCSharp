@@ -1,6 +1,7 @@
 ﻿namespace KifuwarabeShogiCSharp.Core.Usi.Models.Position;
 
 using KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
+using KifuwarabeShogiCSharp.Domain.Shogi.Hands;
 
 internal class MuzPositionModelReadonly
 {
