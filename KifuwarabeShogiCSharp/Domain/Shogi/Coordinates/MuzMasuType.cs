@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
+namespace KifuwarabeShogiCSharp.Domain.Shogi.Coordinates;
 
 internal static class MuzMasuTypeHelper
 {
@@ -13,14 +13,14 @@ internal static class MuzMasuTypeHelper
 /// マス番号。
 /// 
 ///     - M は マスの頭文字だぜ（＾～＾）
-///	  
-///		        (-9)
-///		        北
-///		        ↑
-///		(-1)西←　→東(+1)
-///		        ↓
-///		        南
-///		        (+9)
+/// 	 
+/// 		        (-9)
+/// 		        北
+/// 		        ↑
+/// 		(-1)西←　→東(+1)
+/// 		        ↓
+/// 		        南
+/// 		        (+9)
 ///     </pre>
 /// </summary>
 internal enum MuzMasuType

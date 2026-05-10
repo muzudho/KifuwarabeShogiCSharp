@@ -2,6 +2,7 @@
 
 using KifuwarabeShogiCSharp.Core.Usi.Elements;
 using KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
+using KifuwarabeShogiCSharp.Domain.Shogi.Coordinates;
 using Xunit;
 
 public class ElementsTest

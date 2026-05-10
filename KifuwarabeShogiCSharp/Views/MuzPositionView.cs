@@ -2,6 +2,7 @@
 
 using HelloConsoleAppCSharp.Core.Infrastructure;
 using KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
+using KifuwarabeShogiCSharp.Domain.Shogi.Coordinates;
 using KifuwarabeShogiCSharp.Models;
 using System.Text;
 

@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeShogiCSharp.Core.Usi.Elements;
+namespace KifuwarabeShogiCSharp.Domain.Shogi.Coordinates;
 
 using System.Diagnostics;
 

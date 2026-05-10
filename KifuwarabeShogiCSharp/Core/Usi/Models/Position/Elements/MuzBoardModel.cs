@@ -1,5 +1,7 @@
 ﻿namespace KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
 
+using KifuwarabeShogiCSharp.Domain.Shogi.Coordinates;
+
 /// <summary>
 /// 盤面のモデルだぜ（＾～＾）！
 /// </summary>
