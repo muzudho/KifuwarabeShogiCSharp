@@ -1,10 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using HelloConsoleAppCSharp.Core.Infrastructure;
-using KifuwarabeCSharp;
-using KifuwarabeCSharp.Core.Usi.Models.Position;
-using KifuwarabeCSharp.Infrastructure.Configuration;
-using KifuwarabeCSharp.Infrastructure.Logging;
+using KifuwarabeShogiCSharp;
+using KifuwarabeShogiCSharp.Core.Usi.Models.Position;
+using KifuwarabeShogiCSharp.Infrastructure.Configuration;
+using KifuwarabeShogiCSharp.Infrastructure.Logging;
 
 try
 {

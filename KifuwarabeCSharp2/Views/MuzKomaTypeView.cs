@@ -1,6 +1,6 @@
-﻿namespace KifuwarabeCSharp.Views;
+﻿namespace KifuwarabeShogiCSharp.Views;
 
-using KifuwarabeCSharp.Core.Usi.Models.Position.Elements;
+using KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
 
 internal static class MuzKomaTypeView
 {

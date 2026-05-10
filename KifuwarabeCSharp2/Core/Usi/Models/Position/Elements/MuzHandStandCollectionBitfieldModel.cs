@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeCSharp.Core.Usi.Models.Position.Elements;
+﻿namespace KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
 /// <summary>
 ///     <pre>
 /// 両駒台の持ち駒の枚数だぜ（＾～＾）！

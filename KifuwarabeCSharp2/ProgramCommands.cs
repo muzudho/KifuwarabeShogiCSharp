@@ -1,11 +1,11 @@
-﻿namespace KifuwarabeCSharp;
+﻿namespace KifuwarabeShogiCSharp;
 
 using HelloConsoleAppCSharp.Core.Infrastructure;
-using KifuwarabeCSharp.Core.Usi.Models.Position;
-using KifuwarabeCSharp.Infrastructure.Configuration;
-using KifuwarabeCSharp.Infrastructure.Logging;
-using KifuwarabeCSharp.Models;
-using KifuwarabeCSharp.Views;
+using KifuwarabeShogiCSharp.Core.Usi.Models.Position;
+using KifuwarabeShogiCSharp.Infrastructure.Configuration;
+using KifuwarabeShogiCSharp.Infrastructure.Logging;
+using KifuwarabeShogiCSharp.Models;
+using KifuwarabeShogiCSharp.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

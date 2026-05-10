@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
+    <AssemblyName>KifuwarabeShogiCSharp.Tests</AssemblyName>
+    <RootNamespace>KifuwarabeShogiCSharp.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeCSharp.Infrastructure.Logging;
+﻿namespace KifuwarabeShogiCSharp.Infrastructure.Logging;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

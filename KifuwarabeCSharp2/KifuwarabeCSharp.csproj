@@ -5,6 +5,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>KifuwarabeShogiCSharp</AssemblyName>
+    <RootNamespace>KifuwarabeShogiCSharp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

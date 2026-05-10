@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeCSharp.Infrastructure.Configuration;
+﻿namespace KifuwarabeShogiCSharp.Infrastructure.Configuration;
 
 using Microsoft.Extensions.Configuration;   // `.AddJsonFile()` とか `IConfiguration` とかのために必要（＾～＾）
 using Microsoft.Extensions.DependencyInjection; // `builder.Services.Configure<T>()` のために必要（＾～＾）

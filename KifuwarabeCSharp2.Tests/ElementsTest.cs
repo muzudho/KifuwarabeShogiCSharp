@@ -1,7 +1,7 @@
-﻿namespace KifuwarabeCSharp.Tests;
+﻿namespace KifuwarabeShogiCSharp.Tests;
 
-using KifuwarabeCSharp.Core.Usi.Elements;
-using KifuwarabeCSharp.Core.Usi.Models.Position.Elements;
+using KifuwarabeShogiCSharp.Core.Usi.Elements;
+using KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
 using Xunit;
 
 public class ElementsTest

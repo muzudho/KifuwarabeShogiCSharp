@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeCSharp;
+﻿namespace KifuwarabeShogiCSharp;
 
 internal class ApplicationService
 {

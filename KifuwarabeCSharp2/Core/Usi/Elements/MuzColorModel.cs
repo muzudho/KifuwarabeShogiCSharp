@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeCSharp.Core.Usi.Elements;
+﻿namespace KifuwarabeShogiCSharp.Core.Usi.Elements;
 
 /// <summary>
 /// 黒番と白番だぜ（＾▽＾）！

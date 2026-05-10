@@ -1,8 +1,8 @@
-﻿namespace KifuwarabeCSharp.Views;
+﻿namespace KifuwarabeShogiCSharp.Views;
 
 using HelloConsoleAppCSharp.Core.Infrastructure;
-using KifuwarabeCSharp.Core.Usi.Models.Position.Elements;
-using KifuwarabeCSharp.Models;
+using KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
+using KifuwarabeShogiCSharp.Models;
 using System.Text;
 
 internal static class MuzPositionView

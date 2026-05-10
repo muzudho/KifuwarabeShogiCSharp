@@ -1,6 +1,6 @@
-﻿namespace KifuwarabeCSharp.Core.Usi.Models.Position;
+﻿namespace KifuwarabeShogiCSharp.Core.Usi.Models.Position;
 
-using KifuwarabeCSharp.Core.Usi.Models.Position.Elements;
+using KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
 
 internal class MuzPositionModelReadonly
 {
