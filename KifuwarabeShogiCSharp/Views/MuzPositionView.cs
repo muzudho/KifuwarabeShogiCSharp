@@ -1,7 +1,7 @@
 ﻿namespace KifuwarabeShogiCSharp.Views;
 
 using HelloConsoleAppCSharp.Core.Infrastructure;
-using KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
+using KifuwarabeShogiCSharp.Domain.Shogi.Board;
 using KifuwarabeShogiCSharp.Domain.Shogi.Coordinates;
 using KifuwarabeShogiCSharp.Domain.Shogi.Hands;
 using KifuwarabeShogiCSharp.Domain.Shogi.Pieces;
