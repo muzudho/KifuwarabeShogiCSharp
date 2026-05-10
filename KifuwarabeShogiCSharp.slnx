@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="KifuwarabeShogiCSharp.Tests/KifuwarabeShogiCSharp.Tests.csproj" />
+  <Project Path="KifuwarabeShogiCSharp/KifuwarabeShogiCSharp.csproj" />
+</Solution>
