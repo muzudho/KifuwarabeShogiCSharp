@@ -5,9 +5,9 @@ using KifuwarabeShogiCSharp.Domain.Shogi.Position;
 using KifuwarabeShogiCSharp.Infrastructure.Configuration;
 using KifuwarabeShogiCSharp.Infrastructure.Logging;
 using KifuwarabeShogiCSharp.Models;
+using KifuwarabeShogiCSharp.Protocols.Usi;
 using KifuwarabeShogiCSharp.Views;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
@@ -40,48 +40,14 @@ internal static class ProgramCommands
 
         if (commandName == "quit") return MuzREPLRequestType.Exit;
 
-        if (commandName == "usi")
+        if (UsiCommandHandler.TryExecute(
+            commandName: commandName,
+            pos: pos,
+            appSettings: appSettings,
+            loggingSvc: loggingSvc,
+            out var usiResult))
         {
-            // 将棋の思考エンジンの名前と開発者名を返すぜ（＾▽＾）
-            SendOutput($"id name {appSettings.ShogiEngineName}\nid author {appSettings.ShogiEngineAuthor}\nusiok\n", loggingSvc);
-            return MuzREPLRequestType.None;
-        }
-
-        if (commandName == "isready")
-        {
-            // エンジンが準備できたら、"readyok" を返すぜ（＾▽＾）
-            SendOutput($"readyok\n", loggingSvc);
-            return MuzREPLRequestType.None;
-        }
-
-        if (commandName == "setoption")
-        {
-            // TODO: エンジンのオプションを設定するコマンド。これが来たら、オプションを変更する。
-            return MuzREPLRequestType.None;
-        }
-
-        if (commandName == "usinewgame")
-        {
-            // 新しいゲームの開始を知らせるコマンド。これが来たら、前のゲームの情報をクリアする。
-            return MuzREPLRequestType.None;
-        }
-
-        // ----------------------------------------
-        // 局面
-        // ----------------------------------------
-        //      - 例： `position sfen lnsgkgsnl/9/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL w - 1 moves 5a6b 7g7f 3a3b`
-        if (commandName == "position")
-        {
-            return MuzREPLRequestType.None;
-        }
-
-        if (commandName == "go")
-        {
-            // TODO: 思考開始のコマンド。これが来たら、思考を開始する。
-            //usiOperation.Go(gameStats, pos, ssCmd);
-
-            SendOutput($"bestmove resign\n", loggingSvc);   // とりあえず投了を返すぜ（＾ｑ＾）
-            return MuzREPLRequestType.None;
+            return usiResult;
         }
 
         // ----------------------------------------
@@ -106,7 +72,7 @@ internal static class ProgramCommands
         // ----------------------------------------
         // 無いよ
         // ----------------------------------------
-        SendOutput("そんなコマンド無い（＾～＾）\n", loggingSvc);
+        UsiCommandHandler.SendOutput("そんなコマンド無い（＾～＾）\n", loggingSvc);
         return MuzREPLRequestType.None;
     }
 
@@ -115,26 +81,13 @@ internal static class ProgramCommands
     // 内部メソッド
     // ========================================
 
-
-    /// <summary>
-    /// USIメッセージの出力用（＾～＾）
-    /// </summary>
-    /// <param name="message">USIメッセージ</param>
-    /// <param name="loggingSvc"></param>
-    internal static void SendOutput(string message, IMuzLoggingService loggingSvc)
-    {
-        Console.Write(message); // 改行はもう付いてるから、ここでは付けないぜ（＾～＾）！
-        loggingSvc.USIProtocol.LogInformation(message);
-    }
-
-
     [Conditional("DEBUG")]
     internal static void DebugAssert<T>(string title, T expected, T actual, IMuzLoggingService loggingSvc)
     {
         if (!object.Equals(expected, actual))
         {
             var msg = $"Fail　{title}　期待値: {expected}, 実際の値: {actual}\n";
-            SendOutput(msg, loggingSvc);
+            UsiCommandHandler.SendOutput(msg, loggingSvc);
             //Debug.Assert(false, msg);
         }
     }
