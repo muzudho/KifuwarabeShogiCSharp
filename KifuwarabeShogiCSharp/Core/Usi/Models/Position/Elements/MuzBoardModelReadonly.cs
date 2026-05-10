@@ -1,6 +1,7 @@
 ﻿namespace KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
 
 using KifuwarabeShogiCSharp.Domain.Shogi.Coordinates;
+using KifuwarabeShogiCSharp.Domain.Shogi.Pieces;
 
 internal class MuzBoardModelReadonly
 {

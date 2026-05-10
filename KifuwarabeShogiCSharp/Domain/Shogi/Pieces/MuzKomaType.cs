@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
+namespace KifuwarabeShogiCSharp.Domain.Shogi.Pieces;
 
 /// <summary>
 ///		<pre>
