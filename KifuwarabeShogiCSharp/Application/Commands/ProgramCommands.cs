@@ -34,6 +34,7 @@ internal static class ProgramCommands
         // "Apple Banana Cherry" なら。
         string commandName = parts[0];                    // "Apple"
         string rest = parts.Length > 1 ? parts[1] : "";  // "Banana Cherry"
+        string subCommandName = rest.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
 
         //loggingSvc.Others.LogDebug($"最初の部分   : {commandName}");
         //loggingSvc.Others.LogDebug($"残りの部分   : {rest}");
@@ -56,7 +57,7 @@ internal static class ProgramCommands
         // ----------------------------------------
         // 局面の表示
         // ----------------------------------------
-        if (commandName == "pos")
+        if (commandName == "show" && subCommandName == "board")
         {
             var pos2 = new MuzPositionModelReadonly(pos);
             await MuzPositionView.PrintPositionAsync(new MuzPositionScreenModelReadonly(pos2));
