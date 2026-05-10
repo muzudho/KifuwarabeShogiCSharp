@@ -24,6 +24,41 @@ sequenceDiagram
     Engine-->>GUI: usiok
 ```
 
+`usi` は、GUI が「USI で会話を始めるぜ」と知らせる最初の合図だぜ（＾▽＾）！  
+エンジンは `usiok` を返す前に、少なくとも自分の名前と作者名を返すのが基本だぜ（＾～＾）
+
+
+#### usi に対する応答の基本形
+
+```text
+id name きふわらぷりー
+id author muzudho
+usiok
+```
+
+- `id name` はエンジン名だぜ
+- `id author` は作者名だぜ
+- `usiok` が来たら、GUI は「USI 初期化が終わった」と判断できるぜ
+
+
+#### option 宣言
+
+エンジンは `usiok` の前に、扱えるオプションを `option` 行で並べてもいいぜ（＾▽＾）！
+
+```text
+id name きふわらぷりー
+id author muzudho
+option name USI_Ponder type check default false
+option name BookFile type string default book.db
+option name SkillLevel type spin default 10 min 0 max 20
+usiok
+```
+
+- `check` は true / false の設定向けだぜ
+- `string` は文字列だぜ
+- `spin` は数値範囲つきだぜ
+- GUI は、この宣言を見て設定画面を作ることがあるぜ
+
 
 ### 準備確認
 
@@ -47,6 +82,25 @@ sequenceDiagram
     GUI->>Engine: setoption name USI_Ponder value true
     Note right of Engine: 詳しくは将棋所の説明を読んでくれだぜ（＾～＾）！
 ```
+
+`setoption` は、GUI からエンジン設定を変更するときに使うぜ（＾▽＾）！
+
+```text
+setoption name USI_Ponder value true
+setoption name BookFile value book.db
+setoption name SkillLevel value 5
+```
+
+- `name` の後ろにオプション名を書くぜ
+- `value` の後ろに設定値を書くぜ
+- エンジン側は、`usi` で宣言した名前と対応するように実装すると分かりやすいぜ
+
+
+#### setoption 実装メモ
+
+- 最初は `setoption` を受け取っても、まだ未対応なら無視でもいいぜ
+- ただし、無視するか対応するかは挙動を決めておくと後で整理しやすいぜ
+- まずは `USI_Ponder` みたいな 1 個だけ対応してみるのもアリだぜ
 
 
 ### 新しいゲームの開始
@@ -97,6 +151,23 @@ position sfen lnsgkgsnl/9/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1 moves 
 - `sfen` は任意局面を文字列で渡す形式だぜ
 - `moves` 以降は、USI 形式の指し手を半角スペース区切りで並べるぜ
 - エンジン側は、受け取った内容で内部局面を再構築してから思考に入るぜ
+
+
+#### moves の指し手表記
+
+`moves` 以降の 1 手 1 手は、USI の指し手文字列で書くぜ（＾▽＾）！
+
+```text
+7g7f
+2b3c+
+P*5d
+```
+
+- `7g7f` は、7g から 7f へ動かす手だぜ
+- `2b3c+` は、移動して成る手だぜ
+- `P*5d` は、歩を 5d に打つ手だぜ
+
+つまり、`position startpos moves ...` を実装するには、盤面だけじゃなくて「成り」と「持ち駒から打つ」を読める必要があるぜ（＾～＾）
 
 
 #### startpos を使う場合
@@ -153,6 +224,8 @@ go btime 600000 wtime 600000 byoyomi 10000
 - `movetime 1000` は 1000 ミリ秒だけ考える指定だぜ
 - `btime` `wtime` `byoyomi` は持ち時間と秒読みを渡す形式だぜ
 
+実装の最初は、`go` を受けたら固定で `bestmove resign` を返すだけでも、USI の往復確認には十分だぜ（＾▽＾）！
+
 エンジンは思考中、必要なら途中経過を `info` で返せるぜ（＾▽＾）！  
 最後に必ず `bestmove` を返して思考終了だぜ（＾～＾）
 
@@ -195,6 +268,25 @@ sequenceDiagram
     Engine-->>GUI: info time 234 nodes 12345
     Engine-->>GUI: bestmove 7g7f
 ```
+
+
+#### go infinite
+
+`go infinite` は、GUI が止めるまで考え続ける形だぜ（＾▽＾）！
+
+```mermaid
+sequenceDiagram
+    participant GUI
+    participant Engine as 思考エンジン
+
+    GUI->>Engine: go infinite
+    Engine-->>GUI: info depth 1 pv 7g7f
+    Engine-->>GUI: info depth 2 pv 7g7f 3c3d
+    GUI->>Engine: stop
+    Engine-->>GUI: bestmove 7g7f
+```
+
+これはデバッグや解析で便利だが、最初の実装では後回しでもいいぜ（＾～＾）
 
 
 #### info コマンド
@@ -248,6 +340,40 @@ sequenceDiagram
 
 `go ponder` や `ponderhit` まで入れると少し難しくなるので、最初の実装では後回しでもいいと思うぜ（＾～＾）  
 まずは `position` / `go` / `stop` / `bestmove` をしっかり押さえるのが分かりやすいぜ（＾▽＾）！
+
+
+### 対局終了通知
+
+GUI は、対局が終わったことを `gameover` で知らせることがあるぜ（＾▽＾）！
+
+```text
+gameover win
+gameover lose
+gameover draw
+```
+
+- `win` はエンジン側の勝ちだぜ
+- `lose` はエンジン側の負けだぜ
+- `draw` は引き分けだぜ
+
+学習用の最初の実装では、受け取るだけで何もしなくてもいいが、ログに残せると分かりやすいぜ（＾～＾）
+
+
+### 実装順メモ
+
+最初から全部やろうとすると大変なので、段階を分けるのがいいぜ（＾▽＾）！
+
+1. `usi` に対して `id name` / `id author` / `usiok` を返す
+2. `isready` に対して `readyok` を返す
+3. `usinewgame` を受け取れるようにする
+4. `position startpos` を受け取れるようにする
+5. `go` に対して仮で `bestmove resign` を返す
+6. `position ... moves ...` を読めるようにする
+7. `go depth` や `go movetime` を扱えるようにする
+8. `info` を返せるようにする
+9. `stop` を受け取って `bestmove` を返せるようにする
+
+この順番なら、早い段階で GUI と接続確認ができるので、学習にも向いてるぜ（＾▽＾）！
 
 
 ### 終了
