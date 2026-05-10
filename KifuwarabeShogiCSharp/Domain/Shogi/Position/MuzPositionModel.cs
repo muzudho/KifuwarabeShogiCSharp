@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeShogiCSharp.Core.Usi.Models.Position;
+namespace KifuwarabeShogiCSharp.Domain.Shogi.Position;
 
 using KifuwarabeShogiCSharp.Domain.Shogi.Board;
 using KifuwarabeShogiCSharp.Domain.Shogi.Hands;

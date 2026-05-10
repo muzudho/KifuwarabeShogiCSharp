@@ -1,7 +1,7 @@
 ﻿namespace KifuwarabeShogiCSharp;
 
 using HelloConsoleAppCSharp.Core.Infrastructure;
-using KifuwarabeShogiCSharp.Core.Usi.Models.Position;
+using KifuwarabeShogiCSharp.Domain.Shogi.Position;
 using KifuwarabeShogiCSharp.Infrastructure.Configuration;
 using KifuwarabeShogiCSharp.Infrastructure.Logging;
 using KifuwarabeShogiCSharp.Models;
