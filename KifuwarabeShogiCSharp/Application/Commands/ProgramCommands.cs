@@ -4,7 +4,7 @@ using HelloConsoleAppCSharp.Core.Infrastructure;
 using KifuwarabeShogiCSharp.Domain.Shogi.Position;
 using KifuwarabeShogiCSharp.Infrastructure.Configuration;
 using KifuwarabeShogiCSharp.Infrastructure.Logging;
-using KifuwarabeShogiCSharp.Models;
+using KifuwarabeShogiCSharp.Presentation.ViewModels;
 using KifuwarabeShogiCSharp.Protocols.Usi;
 using KifuwarabeShogiCSharp.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -59,7 +59,7 @@ internal static class ProgramCommands
         if (commandName == "pos")
         {
             var pos2 = new MuzPositionModelReadonly(pos);
-            await MuzPositionView.PrintPositionAsync(new MuzCoreModelReadonly(pos2));
+            await MuzPositionView.PrintPositionAsync(new MuzPositionScreenModelReadonly(pos2));
             return MuzREPLRequestType.None;
         }
 

@@ -45,6 +45,7 @@
 
   <ItemGroup>
     <Folder Include="Core\Usi\Models\Position\Elements\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

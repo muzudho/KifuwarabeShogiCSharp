@@ -5,7 +5,7 @@ using KifuwarabeShogiCSharp.Domain.Shogi.Board;
 using KifuwarabeShogiCSharp.Domain.Shogi.Coordinates;
 using KifuwarabeShogiCSharp.Domain.Shogi.Hands;
 using KifuwarabeShogiCSharp.Domain.Shogi.Pieces;
-using KifuwarabeShogiCSharp.Models;
+using KifuwarabeShogiCSharp.Presentation.ViewModels;
 using System.Text;
 
 internal static class MuzPositionView
@@ -30,12 +30,12 @@ internal static class MuzPositionView
     private const int BoardDanLabelLeftOffset = 37;
 
     public static async Task PrintPositionAsync(
-        MuzCoreModelReadonly core)
+        MuzPositionScreenModelReadonly screen)
     {
-        var topHandLines = BuildHandStandLines(core.Position.HandStandCollection, isKudariSide: true);
+        var topHandLines = BuildHandStandLines(screen.Position.HandStandCollection, isKudariSide: true);
         var boardLines = BuildBoardFrameLines();
         var bottomHandTop = BoardTop + boardLines.Length + BottomHandGapTop;
-        var bottomHandLines = BuildHandStandLines(core.Position.HandStandCollection, isKudariSide: false);
+        var bottomHandLines = BuildHandStandLines(screen.Position.HandStandCollection, isKudariSide: false);
 
         Console.BackgroundColor = TatamiColor;
         Console.ForegroundColor = TextColor;
@@ -46,7 +46,7 @@ internal static class MuzPositionView
         await RenderPanelAsync(BottomHandLeft, bottomHandTop, bottomHandLines);
         await RenderStatusAsync();
         await RenderHandStandAsync(TopHandLeft, TopHandTop, topHandLines);
-        await RenderBoardAsync(BoardLeft, BoardTop, core.Position.Board, boardLines);
+        await RenderBoardAsync(BoardLeft, BoardTop, screen.Position.Board, boardLines);
         await RenderHandStandAsync(BottomHandLeft, bottomHandTop, bottomHandLines);
 
         Console.ResetColor();

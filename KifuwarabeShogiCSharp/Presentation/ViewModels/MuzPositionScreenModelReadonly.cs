@@ -1,11 +1,11 @@
-﻿namespace KifuwarabeShogiCSharp.Models;
+namespace KifuwarabeShogiCSharp.Presentation.ViewModels;
 
 using KifuwarabeShogiCSharp.Domain.Shogi.Position;
 
 /// <summary>
-/// 読取専用のコアだぜ（＾～＾）！
+/// 読取専用の局面画面モデルだぜ（＾～＾）！
 /// </summary>
-internal class MuzCoreModelReadonly
+internal class MuzPositionScreenModelReadonly
 {
 
 
@@ -14,7 +14,7 @@ internal class MuzCoreModelReadonly
     // ========================================
 
 
-    internal MuzCoreModelReadonly(
+    internal MuzPositionScreenModelReadonly(
         MuzPositionModelReadonly pos)
     {
         this.Position = pos;
