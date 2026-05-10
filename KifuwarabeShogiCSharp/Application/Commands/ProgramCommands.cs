@@ -64,6 +64,12 @@ internal static class ProgramCommands
             return MuzREPLRequestType.None;
         }
 
+        if (commandName == "help")
+        {
+            UsiCommandHandler.SendOutput(BuildHelpMessage(), loggingSvc);
+            return MuzREPLRequestType.None;
+        }
+
         if (commandName == "clear")
         {
             Console.Clear();
@@ -81,6 +87,16 @@ internal static class ProgramCommands
     // ========================================
     // 内部メソッド
     // ========================================
+
+    private static string BuildHelpMessage()
+    {
+        return
+            "独自コマンド一覧（＾～＾）\n"
+            + "  help        - この一覧を表示\n"
+            + "  show board  - 盤面を表示\n"
+            + "  clear       - コンソール画面を消す\n"
+            + "  quit        - アプリを終了\n";
+    }
 
     [Conditional("DEBUG")]
     internal static void DebugAssert<T>(string title, T expected, T actual, IMuzLoggingService loggingSvc)
