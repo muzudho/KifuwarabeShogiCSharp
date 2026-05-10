@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeShogiCSharp;
+namespace KifuwarabeShogiCSharp.Application.Commands;
 
 using HelloConsoleAppCSharp.Core.Infrastructure;
 using KifuwarabeShogiCSharp.Domain.Shogi.Position;

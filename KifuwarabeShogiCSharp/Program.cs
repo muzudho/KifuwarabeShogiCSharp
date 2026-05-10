@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using HelloConsoleAppCSharp.Core.Infrastructure;
+using KifuwarabeShogiCSharp.Application.Commands;
 using KifuwarabeShogiCSharp;
 using KifuwarabeShogiCSharp.Domain.Shogi.Position;
 using KifuwarabeShogiCSharp.Infrastructure.Configuration;
