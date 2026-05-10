@@ -3,6 +3,7 @@
 using KifuwarabeShogiCSharp.Core.Usi.Elements;
 using KifuwarabeShogiCSharp.Core.Usi.Models.Position.Elements;
 using KifuwarabeShogiCSharp.Domain.Shogi.Coordinates;
+using KifuwarabeShogiCSharp.Domain.Shogi.Turns;
 using Xunit;
 
 public class ElementsTest

@@ -1,4 +1,4 @@
-﻿namespace KifuwarabeShogiCSharp.Core.Usi.Elements;
+namespace KifuwarabeShogiCSharp.Domain.Shogi.Turns;
 
 /// <summary>
 /// 黒番か白番かを表すぜ（＾▽＾）！
